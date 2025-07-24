@@ -11,11 +11,12 @@ class Orders extends Model
 {
     use HasUlids;
     
-    protected $table = 'order';
+    protected $table = 'orders';
     
     protected $fillable = [
         'customer_id',
         'order_date',
+        'jumlah_barang',
         'total_amount',
         'status',
     ];
@@ -23,18 +24,15 @@ class Orders extends Model
     protected function casts(): array
     {
         return [
-            'order_date' => 'date',
-            'total_amount' => 'integer',
+            'customer_id' => 'string',
         ];
     }
 
-    public function customer(): BelongsTo
-    {
-        return $this-> belongsTo(Customer::class, 'customer_id');
+    public function customer():BelongsTo{
+        return $this->belongsTo(Customers::class, 'customer_id');
     }
 
     public function orderitems():HasMany{
-        return $this->hasMany(OrdersItems::class,'order_id');
+        return $this->hasMany(OrderItems::class,'order_id');
     }
-
 }
